@@ -30,7 +30,7 @@ export default function CamperCard({ camper, variant = "catalog" }: Props) {
 
           <div className={css.stats}>
             <div className={css.rating}>
-              <svg width="15" height="14">
+              <svg className={css.ratingIcon} width="15" height="14">
                 <use href="/sprite.svg#icon-rating" />
               </svg>
               <span className={css.underline}>
@@ -107,7 +107,7 @@ export default function CamperCard({ camper, variant = "catalog" }: Props) {
 
           <div className={css.stats}>
             <div className={css.rating}>
-              <svg width="15" height="14">
+              <svg  className={css.ratingIcon} width="15" height="14">
                 <use href="/sprite.svg#icon-rating" />
               </svg>
               <div className={css.underline}>
