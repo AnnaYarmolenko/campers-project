@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { Inter } from "next/font/google";
 import "./globals.css";
+import Header from "@/components/Header/Header";
+
+const inter = Inter({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "TravelTrucks",
@@ -14,19 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <header>
-          <div>
-            <div>
-              <Link href="/">TravelTrucks</Link>
-            </div>
-            <nav>
-              <Link href="/">Home</Link>
-              <Link href="/catalog">Catalog</Link>
-            </nav>
-          </div>
-        </header>
-        {children}
+      <body className={inter.className}>
+        <Header />
+        <main className="container">{children}</main>
       </body>
     </html>
   );

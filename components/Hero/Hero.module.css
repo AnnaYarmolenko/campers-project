@@ -1,0 +1,40 @@
+.hero {
+  min-height: 696px;
+  background-image: url("/hero.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  display: flex;
+  align-items: center;
+  padding: 260px 0 260px 64px;
+}
+
+.heroTitle {
+  font-weight: 600;
+  font-size: 48px;
+  line-height: 67%;
+  color: var(--inputs);
+  margin-bottom: 16px;
+}
+
+.heroText {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 133%;
+  color: var(--inputs);
+  margin-bottom: 40px;
+}
+
+.heroButton {
+  border-radius: 200px;
+  padding: 16px 60px;
+  width: 173px;
+  height: 56px;
+  background: var(--button);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: var(--white);
+}
