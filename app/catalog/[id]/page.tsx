@@ -1,10 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import { useParams } from "next/navigation";
 import { getCamperById } from "@/lib/api";
+import FeaturesList from "@/components/FeaturesList/FeaturesList";
 import type { Camper } from "@/types/camper";
+import CamperCard from "@/components/CamperCard/CamperCard";
+import iziToast from "izitoast";
+import css from "./CamperDetailsPage.module.css";
+import Loader from "@/components/Loader/Loader";
 
 type Tab = "features" | "reviews";
 
@@ -16,7 +20,6 @@ export default function CamperDetailsPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<Tab>("features");
-  const [bookingSuccess, setBookingSuccess] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -40,168 +43,222 @@ export default function CamperDetailsPage() {
   const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setBookingSuccess(true);
-    (e.target as HTMLFormElement).reset();
-    setTimeout(() => setBookingSuccess(false), 3000);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    const dateStr = formData.get("date") as string | null;
+
+    if (!dateStr) {
+      iziToast.error({
+        title: "Error",
+        message: "Please select booking date",
+        position: "center",
+        timeout: 3000,
+      });
+      return;
+    }
+
+    const selected = new Date(dateStr);
+    const now = new Date();
+
+    now.setHours(0, 0, 0, 0);
+    selected.setHours(0, 0, 0, 0);
+
+    if (selected < now) {
+      iziToast.error({
+        title: "Error",
+        message: "Booking date cannot be in the past",
+        position: "center",
+        timeout: 3000,
+      });
+      return;
+    }
+
+    iziToast.success({
+      title: "Success",
+      message: "Booking request sent successfully!",
+      position: "center",
+      timeout: 3000,
+    });
+
+    form.reset();
   };
 
-  if (isLoading) return <p>Loading...</p>;
+  if (isLoading) return <Loader />;
   if (error) return <p>{error}</p>;
   if (!camper) return <p>Camper not found.</p>;
 
+  const details = [
+    { label: "Form", value: camper.form },
+    { label: "Length", value: camper.length },
+    { label: "Width", value: camper.width },
+    { label: "Height", value: camper.height },
+    { label: "Tank", value: camper.tank },
+    { label: "Consumption", value: camper.consumption },
+  ].filter((item) => item.value);
+
+  const renderStars = (rating: number) => {
+    const rounded = Math.round(rating);
+
+    return Array.from({ length: 5 }, (_, i) => {
+      const isFilled = i < rounded;
+
+      return (
+        <svg
+          key={i}
+          width="16"
+          height="16"
+          className={isFilled ? css.starFilled : css.starEmpty}
+        >
+          <use href="/sprite.svg#icon-rating" />
+        </svg>
+      );
+    });
+  };
+
   return (
-    <main>
-      <header>
-        <h1>{camper.name}</h1>
-        <div>
-          <span>
-            ★ {camper.rating} ({camper.reviews?.length || 0} reviews)
-          </span>
-          <span>{camper.location}</span>
-        </div>
-        <p>€{camper.price.toFixed(2)}</p>
-      </header>
+    <main className={`container ${css.page}`}>
+      <section className={css.topCard}>
+        <CamperCard camper={camper} variant="details" />
+      </section>
 
-      {camper.gallery && camper.gallery.length > 0 && (
-        <div>
-          {camper.gallery.slice(0, 3).map((img) => (
-            <div key={img.original}>
-              <Image
-                src={img.original}
-                alt={camper.name}
-                width={500}
-                height={300}
-              />
-            </div>
-          ))}
-        </div>
-      )}
+      {/* Вкладки */}
+      <div className={css.tabs}>
+        <button
+          type="button"
+          className={
+            activeTab === "features"
+              ? `${css.tabButton} ${css.tabButtonActive}`
+              : css.tabButton
+          }
+          onClick={() => setActiveTab("features")}
+        >
+          Features
+        </button>
+        <button
+          type="button"
+          className={
+            activeTab === "reviews"
+              ? `${css.tabButton} ${css.tabButtonActive}`
+              : css.tabButton
+          }
+          onClick={() => setActiveTab("reviews")}
+        >
+          Reviews
+        </button>
+      </div>
 
-      <div>
-        <section>
-          <div>
-            <button
-              type="button"
-              onClick={() => setActiveTab("features")}
-              className={`pb-2 cursor-pointer ${
-                activeTab === "features"
-                  ? "border-b-2 border-black font-semibold"
-                  : "text-gray-500"
-              }`}
-            >
-              Features
-            </button>
-            <button
-              type="button"
-              onClick={() => setActiveTab("reviews")}
-              className={`pb-2 cursor-pointer ${
-                activeTab === "reviews"
-                  ? "border-b-2 border-black font-semibold"
-                  : "text-gray-500"
-              }`}
-            >
-              Reviews
-            </button>
-          </div>
-
+      {/* Контент під вкладками */}
+      <section className={css.contentRow}>
+        <div className={css.leftCol}>
           {activeTab === "features" && (
-            <div>
-              <p>{camper.description}</p>
+            <div className={css.featuresBlock}>
+              <FeaturesList camper={camper} />
 
-              <div>
-                {camper.AC && <span>AC</span>}
-                {camper.bathroom && <span>Bathroom</span>}
-                {camper.kitchen && <span>Kitchen</span>}
-                {camper.TV && <span>TV</span>}
-                {camper.radio && <span>Radio</span>}
-                {camper.refrigerator && <span>Refrigerator</span>}
-                {camper.microwave && <span>Microwave</span>}
-                {camper.gas && <span>Gas</span>}
-                {camper.water && <span>Water</span>}
-                {camper.transmission && <span>{camper.transmission}</span>}
-                {camper.engine && <span>{camper.engine}</span>}
+              {/* Vehicle details */}
+              <div className={css.detailsBlock}>
+                <h3 className={css.detailsTitle}>Vehicle details</h3>
+                <div className={css.detailsDivider}></div>
+
+                <dl className={css.detailsList}>
+                  {details.map((item) => (
+                    <div key={item.label} className={css.detailRow}>
+                      <dt className={css.detailLabel}>{item.label}</dt>
+                      <dd className={css.detailValue}>{item.value}</dd>
+                    </div>
+                  ))}
+                </dl>
               </div>
-
-              <h3>Details</h3>
-              <dl>
-                {camper.form && (
-                  <>
-                    <dt>Form</dt>
-                    <dd>{camper.form}</dd>
-                  </>
-                )}
-                {camper.length && (
-                  <>
-                    <dt>Length</dt>
-                    <dd>{camper.length}</dd>
-                  </>
-                )}
-                {camper.width && (
-                  <>
-                    <dt>Width</dt>
-                    <dd>{camper.width}</dd>
-                  </>
-                )}
-                {camper.height && (
-                  <>
-                    <dt>Height</dt>
-                    <dd>{camper.height}</dd>
-                  </>
-                )}
-                {camper.tank && (
-                  <>
-                    <dt>Tank</dt>
-                    <dd>{camper.tank}</dd>
-                  </>
-                )}
-                {camper.consumption && (
-                  <>
-                    <dt>Consumption</dt>
-                    <dd>{camper.consumption}</dd>
-                  </>
-                )}
-              </dl>
             </div>
           )}
 
+          {/* Відгуки */}
           {activeTab === "reviews" && (
-            <div>
+            <div className={css.reviewsBlock}>
               {camper.reviews && camper.reviews.length > 0 ? (
                 camper.reviews.map((review) => (
-                  <div key={review.reviewer_name + review.comment}>
-                    <div>
-                      <span className="font-semibold">
-                        {review.reviewer_name}
-                      </span>
-                      <span>★ {review.reviewer_rating}</span>
+                  <article
+                    key={review.reviewer_name + review.comment}
+                    className={css.reviewItem}
+                  >
+                    <div className={css.reviewHeader}>
+                      <div className={css.reviewAvatar}>
+                        {review.reviewer_name.charAt(0).toUpperCase()}
+                      </div>
+                      <div>
+                        <p className={css.reviewName}>{review.reviewer_name}</p>
+                        <div className={css.reviewRating}>
+                          {renderStars(review.reviewer_rating)}
+                        </div>
+                      </div>
                     </div>
-                    <p>{review.comment}</p>
-                  </div>
+                    <p className={css.reviewText}>{review.comment}</p>
+                  </article>
                 ))
               ) : (
                 <p>No reviews yet.</p>
               )}
             </div>
           )}
-        </section>
+        </div>
 
-        {/* Booking form */}
-        <aside>
-          <h2>Book now</h2>
-          <p>Send a request and we will contact you to confirm your booking.</p>
+        {/* Форма бронювання */}
+        <aside className={css.rightCol}>
+          <div className={css.bookingCard}>
+            <h2 className={css.bookingTitle}>Book your campervan now</h2>
+            <p className={css.bookingText}>
+              Stay connected! We are always ready to help you.
+            </p>
 
-          <form onSubmit={handleBookingSubmit}>
-            <input name="name" required placeholder="Name" />
-            <input name="email" type="email" required placeholder="Email" />
-            <input name="date" type="date" required />
-            <textarea name="comment" placeholder="Comment" />
+            <form onSubmit={handleBookingSubmit}>
+              <div className={css.bookingField}>
+                <input
+                  name="name"
+                  required
+                  placeholder="Name*"
+                  className={css.bookingInput}
+                />
+              </div>
 
-            <button type="submit">Send</button>
+              <div className={css.bookingField}>
+                <input
+                  name="email"
+                  type="email"
+                  required
+                  placeholder="Email*"
+                  className={css.bookingInput}
+                />
+              </div>
 
-            {bookingSuccess && <p>Booking request sent successfully!</p>}
-          </form>
+              <div className={css.bookingField}>
+                <input
+                  type="text"
+                  name="date"
+                  placeholder="Booking date*"
+                  className={css.bookingInput}
+                  onFocus={(e) => (e.target.type = "date")}
+                  onBlur={(e) => {
+                    if (!e.target.value) e.target.type = "text";
+                  }}
+                  required
+                />
+              </div>
+
+              <div className={css.bookingField}>
+                <textarea
+                  name="comment"
+                  placeholder="Comment"
+                  className={css.bookingTextarea}
+                />
+              </div>
+
+              <button type="submit" className={`btnShow ${css.bookingButton}`}>
+                Send
+              </button>
+            </form>
+          </div>
         </aside>
-      </div>
+      </section>
     </main>
   );
 }

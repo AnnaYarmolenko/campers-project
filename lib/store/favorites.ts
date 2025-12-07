@@ -14,18 +14,19 @@ export const useFavoritesStore = create<FavoritesState>()(
       favorites: [],
 
       toggleFavorite: (camper) => {
-        const { favorites } = get();
-        const exists = favorites.some((c) => c.id === camper.id);
+        set((state) => {
+          const exists = state.favorites.some((c) => c.id === camper.id);
 
-        if (exists) {
-          set({
-            favorites: favorites.filter((c) => c.id !== camper.id),
-          });
-        } else {
-          set({
-            favorites: [...favorites, camper],
-          });
-        }
+          if (exists) {
+            return {
+              favorites: state.favorites.filter((c) => c.id !== camper.id),
+            };
+          }
+
+          return {
+            favorites: [...state.favorites, camper],
+          };
+        });
       },
 
       isFavorite: (id) => get().favorites.some((c) => c.id === id),

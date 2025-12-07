@@ -1,0 +1,110 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--gray);
+}
+
+.labelFilters {
+  font-weight: 500;
+  margin-bottom: 32px;
+}
+
+.inputWrapper {
+  position: relative;
+  width: 360px;
+}
+
+.locationIcon {
+  position: absolute;
+  left: 16px;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  stroke: var(--gray);
+}
+
+.input {
+  width: 100%;
+  height: 56px;
+  padding: 18px 20px 18px 44px;
+  border-radius: 12px;
+  background: var(--inputs);
+  border: none;
+}
+
+.filterText {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 120%;
+  color: var(--main);
+  margin-bottom: 24px;
+}
+
+.divider {
+  margin-bottom: 24px;
+}
+
+.typeGrid {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.typeCard {
+  display: block;
+}
+
+.typeButton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border: 1px solid var(--gray-light);
+  border-radius: 10px;
+  padding: 16px;
+  width: 112px;
+  height: 96px;
+
+  background: var(--white);
+  cursor: pointer;
+}
+
+.typeButtonActive {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid var(--button);
+  border-radius: 12px;
+  padding: 16px;
+  width: 112px;
+  height: 96px;
+  background: var(--white);
+  cursor: pointer;
+}
+
+.typeIcon {
+  display: block;
+}
+
+.searchButton {
+  border: none;
+  background: var(--button);
+}
+
+.searchButton:hover {
+  background: var(--button-hover);
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import "izitoast/dist/css/iziToast.min.css";
 import Header from "@/components/Header/Header";
 
 const inter = Inter({

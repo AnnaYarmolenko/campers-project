@@ -16,6 +16,34 @@ interface CampersState {
 }
 
 const PAGE_LIMIT = 5;
+
+const buildParams = (filters?: Filters, page: number = 1) => {
+  const params: Record<string, string | number | boolean> = {
+    page,
+    limit: PAGE_LIMIT,
+  };
+
+  if (!filters) return params;
+
+  if (filters.location) params.location = filters.location;
+  if (filters.form) params.form = filters.form;
+
+  if (filters.AC) params.AC = true;
+  if (filters.bathroom) params.bathroom = true;
+  if (filters.kitchen) params.kitchen = true;
+  if (filters.TV) params.TV = true;
+  if (filters.radio) params.radio = true;
+  if (filters.microwave) params.microwave = true;
+  if (filters.refrigerator) params.refrigerator = true;
+  if (filters.water) params.water = true;
+  if (filters.gas) params.gas = true;
+
+  if (filters.transmission) params.transmission = filters.transmission;
+  if (filters.engine) params.engine = filters.engine;
+
+  return params;
+};
+
 export const useCampersStore = create<CampersState>((set, get) => ({
   campers: [],
   total: 0,
@@ -35,19 +63,7 @@ export const useCampersStore = create<CampersState>((set, get) => ({
     });
 
     try {
-      const params: Record<string, string | number | boolean> = {
-        page: 1,
-        limit: PAGE_LIMIT,
-      };
-
-      if (filters) {
-        if (filters.location) params.location = filters.location;
-        if (filters.form) params.form = filters.form;
-        if (filters.AC) params.AC = true;
-        if (filters.bathroom) params.bathroom = true;
-        if (filters.kitchen) params.kitchen = true;
-      }
-
+      const params = buildParams(filters, 1);
       const data: CampersResponse = await getCampers(params);
 
       set({
@@ -76,19 +92,7 @@ export const useCampersStore = create<CampersState>((set, get) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const params: Record<string, string | number | boolean> = {
-        page: nextPage,
-        limit: PAGE_LIMIT,
-      };
-
-      if (filters) {
-        if (filters.location) params.location = filters.location;
-        if (filters.form) params.form = filters.form;
-        if (filters.AC) params.AC = true;
-        if (filters.bathroom) params.bathroom = true;
-        if (filters.kitchen) params.kitchen = true;
-      }
-
+      const params = buildParams(filters, nextPage);
       const data: CampersResponse = await getCampers(params);
 
       set((state) => {

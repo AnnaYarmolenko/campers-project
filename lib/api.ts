@@ -1,4 +1,3 @@
-// lib/api.ts
 import axios from "axios";
 import { Camper } from "@/types/camper";
 
@@ -7,20 +6,15 @@ const instance = axios.create({
 });
 
 export interface CampersResponse {
-  total: number;
   items: Camper[];
+  total: number;
 }
 
 export async function getCampers(
   params?: Record<string, string | number | boolean>
 ): Promise<CampersResponse> {
   const response = await instance.get<CampersResponse>("/campers", { params });
-  const data = response.data;
-
-  return {
-    total: data.total ?? 0,
-    items: Array.isArray(data.items) ? data.items : [],
-  };
+  return response.data;
 }
 
 export async function getCamperById(id: string): Promise<Camper> {

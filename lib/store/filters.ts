@@ -3,39 +3,64 @@ import { create } from "zustand";
 export interface Filters {
   location?: string;
   form?: string;
+
   AC?: boolean;
   bathroom?: boolean;
   kitchen?: boolean;
+
+  transmission?: string;
+  engine?: string;
+  gas?: boolean;
+
+  TV?: boolean;
+  radio?: boolean;
+  microwave?: boolean;
+  refrigerator?: boolean;
+  water?: boolean;
 }
+
+const initialFilters: Filters = {
+  location: "",
+  form: "",
+  AC: false,
+  bathroom: false,
+  kitchen: false,
+  transmission: "",
+  TV: false,
+  radio: false,
+  microwave: false,
+  refrigerator: false,
+  water: false,
+  engine: "",
+  gas: false,
+};
 
 interface FiltersStore {
   filters: Filters;
-  setFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
-  resetFilters: () => void;
+  draftFilters: Filters;
+
+  setDraftFilter: <K extends keyof Filters>(key: K, value: Filters[K]) => void;
+
+  applyFilters: () => void;
+  resetDraftFilters: () => void;
 }
 
 export const useFiltersStore = create<FiltersStore>((set) => ({
-  filters: {
-    location: "",
-    form: "",
-    AC: false,
-    bathroom: false,
-    kitchen: false,
-  },
+  filters: initialFilters,
+  draftFilters: initialFilters,
 
-  setFilter: (key, value) =>
+  setDraftFilter: (key, value) =>
     set((state) => ({
-      filters: { ...state.filters, [key]: value },
+      draftFilters: { ...state.draftFilters, [key]: value },
     })),
 
-  resetFilters: () =>
-    set({
-      filters: {
-        location: "",
-        form: "",
-        AC: false,
-        bathroom: false,
-        kitchen: false,
-      },
-    }),
+  applyFilters: () =>
+    set((state) => ({
+      filters: state.draftFilters,
+    })),
+
+  resetDraftFilters: () =>
+    set(() => ({
+      draftFilters: initialFilters,
+    })),
 }));

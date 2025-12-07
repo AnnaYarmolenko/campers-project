@@ -1,0 +1,254 @@
+.page {
+  padding: 48px 64px 70px 64px;
+}
+
+.topCard {
+  margin-bottom: 44px;
+}
+
+/* Вкладки */
+.tabs {
+  display: flex;
+  gap: 40px;
+  border-bottom: 1px solid var(--gray-light);
+  margin-bottom: 42px;
+}
+
+.tabButton {
+  padding: 0 0 16px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 120%;
+  color: var(--main);
+}
+
+.tabButtonActive {
+  color: var(--main);
+  border-bottom: 5px solid var(--button);
+}
+
+.contentRow {
+  display: flex;
+  gap: 40px;
+}
+
+.leftCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.featuresBlock {
+  display: flex;
+  flex-direction: column;
+  width: 631px;
+  border-radius: 10px;
+  padding: 44px;
+  background: var(--inputs);
+  height: 100%;
+}
+
+.featuresList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.featureItem {
+  padding: 8px 18px;
+  border-radius: 100px;
+  background: var(--badges);
+  font-size: 14px;
+}
+
+/* Vehicle details */
+
+.detailsBlock {
+  margin-top: auto;
+}
+
+.detailsTitle {
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 120%;
+  margin-bottom: 16px;
+  color: var(--main);
+  margin-bottom: 24px;
+}
+
+.detailsDivider {
+  width: 527px;
+  height: 1px;
+  background-color: var(--gray-light);
+  margin-bottom: 24px;
+}
+
+.detailsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.detailRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.detailLabel {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--main);
+}
+
+.detailValue {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: center;
+  color: var(--main);
+}
+
+/* Reviews */
+
+.reviewsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 44px;
+  width: 631px;
+}
+
+.reviewItem {
+  padding-bottom: 16px;
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.reviewAvatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--badges);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--button);
+}
+
+.reviewName {
+  font-weight: 600;
+  color: var(--main);
+  margin-bottom: 4px;
+}
+
+.star {
+  display: inline-block;
+}
+
+.starFilled {
+  color: var(--rating);
+}
+
+.starEmpty {
+  color: var(--badges);
+}
+
+.reviewRating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--main);
+}
+
+.reviewRatingValue {
+  margin-left: 6px;
+  font-weight: 500;
+  color: var(--main);
+  font-size: 14px;
+}
+
+.reviewText {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--text);
+}
+
+/* Форма бронювання */
+
+.rightCol {
+  width: 641px;
+}
+
+.bookingCard {
+  border: 1px solid var(--gray-light);
+  border-radius: 10px;
+  padding: 44px;
+  background: var(--white);
+}
+
+.bookingTitle {
+  font-weight: 600;
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: var(--main);
+  line-height: 120%;
+}
+
+.bookingText {
+  margin-bottom: 24px;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: var(--gray);
+}
+
+.bookingField {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.bookingInput,
+.bookingTextarea {
+  border-radius: 12px;
+  border: 1px solid var(--gray-light);
+  background: var(--inputs);
+  padding: 12px 16px;
+  font: inherit;
+}
+
+.bookingTextarea {
+  min-height: 80px;
+  resize: none;
+}
+
+.bookingButton {
+  border: none;
+  background: var(--button);
+  display: flex;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookingButton:hover {
+  background: var(--button-hover);
+}
+
+.successMessage {
+  margin-top: 8px;
+  font-size: 14px;
+  color: green;
+}
