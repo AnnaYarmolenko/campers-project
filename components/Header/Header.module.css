@@ -1,8 +1,12 @@
 .header {
+  background: var(--inputs);
+  width: 100%;
+}
+
+.inner {
   display: flex;
   gap: 450px;
   padding: 28px 0 28px 64px;
-  background: var(--inputs);
 }
 
 .nav {
@@ -10,11 +14,15 @@
   font-size: 16px;
   line-height: 150%;
   text-align: center;
-  color: var(--main);
+
   display: flex;
   gap: 32px;
 }
 
-.nav a:hover {
+.link {
+  color: var(--main);
+}
+
+.linkActive {
   color: var(--button);
 }
