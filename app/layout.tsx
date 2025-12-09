@@ -7,6 +7,7 @@ import Header from "@/components/Header/Header";
 const inter = Inter({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  variable: "--font-inter",
   display: "swap",
 });
 
@@ -22,7 +23,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={inter.variable}>
         <Header />
         <main className="container">{children}</main>
       </body>

@@ -9,7 +9,7 @@
   --button: #e44848;
   --button-hover: #d84343;
   --rating: #ffc531;
-  --font-family: "Inter", sans-serif;
+  --font-family: var(--font-inter);
 }
 
 * {
@@ -25,7 +25,6 @@ body {
 .container {
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 16px;
 }
 
 a {
