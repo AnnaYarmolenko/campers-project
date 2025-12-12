@@ -23,8 +23,10 @@ export default function CatalogPage() {
         <FiltersPanel />
       </div>
       <div className={css.catalogSection}>
-        {isLoading && campers.length === 0 && <p>Loading campers...</p>}
+        {/* 1) Перше завантаження - лише спінер */}
+        {isLoading && campers.length === 0 && <Loader />}
 
+        {/* 2) Якщо нічого не знайдено */}
         {campers.length === 0 && !isLoading ? (
           <p>No campers found.</p>
         ) : (
@@ -35,15 +37,22 @@ export default function CatalogPage() {
               ))}
             </div>
 
+            {/* 3) Пагінація */}
             {hasMore && (
-              <button
-                type="button"
-                onClick={() => loadMore(filters)}
-                disabled={isLoading}
-                className={`btnShow ${css.loadMore}`}
-              >
-                {isLoading && campers.length === 0 ? <Loader /> : "Load more"}
-              </button>
+              <>
+                {!isLoading && (
+                  <button
+                    type="button"
+                    onClick={() => loadMore(filters)}
+                    className={`btnShow ${css.loadMore}`}
+                  >
+                    Load more
+                  </button>
+                )}
+
+                {/*  Loader замість кнопки */}
+                {isLoading && campers.length > 0 && <Loader />}
+              </>
             )}
           </div>
         )}
