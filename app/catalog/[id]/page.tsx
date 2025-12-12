@@ -6,9 +6,9 @@ import { getCamperById } from "@/lib/api";
 import FeaturesList from "@/components/FeaturesList/FeaturesList";
 import type { Camper } from "@/types/camper";
 import CamperCard from "@/components/CamperCard/CamperCard";
-import iziToast from "izitoast";
 import css from "./CamperDetailsPage.module.css";
 import Loader from "@/components/Loader/Loader";
+import BookingDatePicker from "@/components/BookingDatePicker/BookingDatePicker";
 
 type Tab = "features" | "reviews";
 
@@ -40,13 +40,15 @@ export default function CamperDetailsPage() {
     load();
   }, [id]);
 
-  const handleBookingSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleBookingSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const form = e.currentTarget;
     const formData = new FormData(form);
 
     const dateStr = formData.get("date") as string | null;
+
+    const { default: iziToast } = await import("izitoast");
 
     if (!dateStr) {
       iziToast.error({
@@ -231,17 +233,7 @@ export default function CamperDetailsPage() {
               </div>
 
               <div className={css.bookingField}>
-                <input
-                  type="text"
-                  name="date"
-                  placeholder="Booking date*"
-                  className={css.bookingInput}
-                  onFocus={(e) => (e.target.type = "date")}
-                  onBlur={(e) => {
-                    if (!e.target.value) e.target.type = "text";
-                  }}
-                  required
-                />
+                <BookingDatePicker name="date" />
               </div>
 
               <div className={css.bookingField}>

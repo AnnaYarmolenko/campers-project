@@ -188,13 +188,14 @@
 
 .rightCol {
   width: 641px;
+  box-sizing: border-box;
 }
 
 .bookingCard {
-  border: 1px solid var(--gray-light);
   border-radius: 10px;
-  padding: 44px;
+  padding: 44px 57px;
   background: var(--white);
+  box-sizing: border-box;
 }
 
 .bookingTitle {
@@ -226,10 +227,19 @@
   background: var(--inputs);
   padding: 12px 16px;
   border: none;
+  height: 60px;
+  box-sizing: border-box;
+  cursor: pointer;
+  font: inherit;
+}
+
+.bookingInput,
+.bookingTextarea:focus {
+  outline: none;
 }
 
 .bookingTextarea {
-  min-height: 80px;
+  min-height: 118px;
   resize: none;
 }
 

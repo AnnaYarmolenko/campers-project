@@ -43,7 +43,7 @@ export default function FiltersPanel() {
           <use href="/sprite.svg#icon-divider" />
         </svg>
 
-        <div className={css.typeGrid}>
+        <ul className={css.typeGrid}>
           {EQUIPMENT_FILTERS.map((item) => {
             const active =
               item.type === "string"
@@ -51,26 +51,27 @@ export default function FiltersPanel() {
                 : Boolean(draftFilters[item.key]);
 
             return (
-              <button
-                key={`${item.key}-${item.value ?? "bool"}`}
-                type="button"
-                onClick={() => {
-                  if (item.type === "string") {
-                    setDraftFilter(item.key, active ? "" : item.value || "");
-                  } else {
-                    setDraftFilter(item.key, !active);
-                  }
-                }}
-                className={active ? css.typeButtonActive : css.typeButton}
-              >
-                <svg width="32" height="32" className={css.equipmentIcon}>
-                  <use href={`/sprite.svg#${item.icon}`} />
-                </svg>
-                <span>{item.label}</span>
-              </button>
+              <li key={`${item.key}-${item.value ?? "bool"}`}>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (item.type === "string") {
+                      setDraftFilter(item.key, active ? "" : item.value || "");
+                    } else {
+                      setDraftFilter(item.key, !active);
+                    }
+                  }}
+                  className={active ? css.typeButtonActive : css.typeButton}
+                >
+                  <svg width="32" height="32" className={css.equipmentIcon}>
+                    <use href={`/sprite.svg#${item.icon}`} />
+                  </svg>
+                  <span>{item.label}</span>
+                </button>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
       {/* Vehicle type */}
@@ -81,12 +82,12 @@ export default function FiltersPanel() {
           <use href="/sprite.svg#icon-divider" />
         </svg>
 
-        <div className={css.typeGrid}>
+        <ul className={css.typeGrid}>
           {vehicleTypes.map((type) => {
             const active = draftFilters.form === type.value;
 
             return (
-              <div key={type.value} className={css.typeCard}>
+              <li key={type.value} className={css.typeCard}>
                 <button
                   type="button"
                   onClick={() =>
@@ -99,10 +100,10 @@ export default function FiltersPanel() {
                   </svg>
                   <span>{type.label}</span>
                 </button>
-              </div>
+              </li>
             );
           })}
-        </div>
+        </ul>
       </div>
 
       <div className={css.actions}>

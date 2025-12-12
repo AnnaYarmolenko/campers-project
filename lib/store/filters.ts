@@ -54,10 +54,17 @@ export const useFiltersStore = create<FiltersStore>((set) => ({
       draftFilters: { ...state.draftFilters, [key]: value },
     })),
 
-  applyFilters: () =>
-    set((state) => ({
-      filters: state.draftFilters,
-    })),
+applyFilters: () =>
+  set((state) => {
+    const draft = state.draftFilters;
+
+    return {
+      filters: {
+        ...draft,
+        location: draft.location ? draft.location.trim() : "",
+      },
+    };
+  }),
 
   resetDraftFilters: () =>
     set(() => ({

@@ -14,6 +14,9 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "TravelTrucks",
   description: "Campers rent catalog and booking",
+  icons: {
+    icon: "/camper.ico",
+  },
 };
 
 export default function RootLayout({

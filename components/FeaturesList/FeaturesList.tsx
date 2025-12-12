@@ -11,32 +11,28 @@ interface FeaturesListProps {
 
 export default function FeaturesList({ camper, className }: FeaturesListProps) {
   return (
-    <div className={`${css.featuresList} ${className ?? ""}`}>
+    <ul className={`${css.featuresList} ${className ?? ""}`}>
       {EQUIPMENT_FEATURES.map((item) => {
         const value = camper[item.key as keyof Camper];
-
         if (!value) return null;
 
-        if (item.key === "engine" || item.key === "transmission") {
-          return (
-            <span key={item.key} className={css.featureItem}>
-              <svg width="20" height="20">
-                <use href={`/sprite.svg#${item.icon}`} />
-              </svg>
-              {String(value)}
-            </span>
-          );
-        }
+        const content =
+          item.key === "engine" || item.key === "transmission"
+            ? String(value)
+            : item.label;
 
         return (
-          <span key={item.key} className={css.featureItem}>
+          <li
+            key={`${item.key}-${content}`}
+            className={css.featureItem}
+          >
             <svg width="20" height="20">
               <use href={`/sprite.svg#${item.icon}`} />
             </svg>
-            {item.label}
-          </span>
+            <span>{content}</span>
+          </li>
         );
       })}
-    </div>
+    </ul>
   );
 }
